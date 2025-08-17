@@ -5,7 +5,7 @@ app = FastAPI(title="Hello World API", version="1.0.0")
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Global World, Welcome to FastAPI!"}
+    return {"message": "Hello Global World, This is our first Samani repo code!"}
 
 @app.get("/health")
 async def health_check():
