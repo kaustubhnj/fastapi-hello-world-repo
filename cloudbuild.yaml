@@ -32,11 +32,5 @@ steps:
       '--port', '8000'
     ]
 
-# Substitutions for build variables
-substitutions:
-  _LOCATION: 'us-central1'
-  _REPOSITORY: 'fastapi-repo'
-  _SERVICE_NAME: 'fastapi-hello-world'
-
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -60,7 +60,8 @@ gcloud builds triggers create github \
     --branch-pattern="^main$" \
     --build-config="cloudbuild.yaml" \
     --name="fastapi-main-trigger" \
-    --description="Trigger for main branch deployments"
+    --description="Trigger for main branch deployments" \
+    --substitutions="_LOCATION=$LOCATION,_REPOSITORY=$REPOSITORY_NAME,_SERVICE_NAME=$SERVICE_NAME"
 
 echo -e "${GREEN}✓ Main branch trigger created${NC}"
 
@@ -74,7 +75,8 @@ gcloud builds triggers create github \
     --build-config="cloudbuild.yaml" \
     --name="fastapi-pr-trigger" \
     --description="Trigger for pull request validation" \
-    --comment-control="COMMENTS_ENABLED" || echo -e "${YELLOW}PR trigger creation failed (this is optional)${NC}"
+    --comment-control="COMMENTS_ENABLED" \
+    --substitutions="_LOCATION=$LOCATION,_REPOSITORY=$REPOSITORY_NAME,_SERVICE_NAME=$SERVICE_NAME" || echo -e "${YELLOW}PR trigger creation failed (this is optional)${NC}"
 
 echo -e "${GREEN}✓ Build triggers created successfully${NC}"
 

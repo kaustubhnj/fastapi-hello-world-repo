@@ -7,35 +7,35 @@ set -e
 echo "=== GCP CI/CD Pipeline Setup - Step 2: Create Application ==="
 
 # Load environment variables or create them if .env doesn't exist
-if [ ! -f ".env" ]; then
-    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
-    echo "Creating a default .env file to proceed..."
+# if [ ! -f ".env" ]; then
+#     echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+#     echo "Creating a default .env file to proceed..."
     
-    # Get or set project ID
-    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
-    if [ -z "$PROJECT_ID" ]; then
-        echo "No project set. Please enter your GCP Project ID:"
-        read -p "Project ID: " PROJECT_ID
-        gcloud config set project $PROJECT_ID
-    fi
+#     # Get or set project ID
+#     export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+#     if [ -z "$PROJECT_ID" ]; then
+#         echo "No project set. Please enter your GCP Project ID:"
+#         read -p "Project ID: " PROJECT_ID
+#         gcloud config set project $PROJECT_ID
+#     fi
 
-    # Set default environment variables
-    export REPOSITORY_NAME="fastapi-repo"
-    export LOCATION="us-central1"
-    export REPO_NAME="fastapi-hello-world-repo"
-    export SERVICE_NAME="fastapi-hello-world"
+#     # Set default environment variables
+#     export REPOSITORY_NAME="fastapi-repo"
+#     export LOCATION="us-central1"
+#     export REPO_NAME="fastapi-hello-world-repo"
+#     export SERVICE_NAME="fastapi-hello-world"
 
-    # Save environment variables to file for other scripts
-    cat > .env << EOV
-export PROJECT_ID="$PROJECT_ID"
-export REPOSITORY_NAME="$REPOSITORY_NAME"
-export LOCATION="$LOCATION"
-export REPO_NAME="$REPO_NAME"
-export SERVICE_NAME="$SERVICE_NAME"
-EOV
+#     # Save environment variables to file for other scripts
+#     cat > .env << EOV
+# export PROJECT_ID="$PROJECT_ID"
+# export REPOSITORY_NAME="$REPOSITORY_NAME"
+# export LOCATION="$LOCATION"
+# export REPO_NAME="$REPO_NAME"
+# export SERVICE_NAME="$SERVICE_NAME"
+# EOV
 
-    echo "Environment variables saved to .env file"
-fi
+#     echo "Environment variables saved to .env file"
+# fi
 
 # Source the environment variables to make them available to this script
 echo "Loading environment variables from .env..."
@@ -132,12 +132,6 @@ steps:
       '--allow-unauthenticated',
       '--port', '8000'
     ]
-
-# Substitutions for build variables
-substitutions:
-  _LOCATION: '$LOCATION'
-  _REPOSITORY: '$REPOSITORY_NAME'
-  _SERVICE_NAME: '$SERVICE_NAME'
 
 options:
   logging: CLOUD_LOGGING_ONLY
