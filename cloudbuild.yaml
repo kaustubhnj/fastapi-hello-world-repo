@@ -28,9 +28,14 @@ steps:
       '--image', '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/fastapi-app:${BUILD_ID}',
       '--platform', 'managed',
       '--region', '${_LOCATION}',
-      '--allow-unauthenticated',
-      '--port', '8000'
+      '--port', '8000',
+      '--set-env-vars', 'PORT=8000'
     ]
+
+substitutions:
+  _LOCATION: 'us-central1'
+  _REPOSITORY: 'fastapi-repo'
+  _SERVICE_NAME: 'fastapi-hello-world'
 
 options:
   logging: CLOUD_LOGGING_ONLY
