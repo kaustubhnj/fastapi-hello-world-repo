@@ -91,12 +91,11 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 2: Create Application ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Warning: .env file not found. Creating default environment variables..."
-    
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
     # Get or set project ID
     export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
     if [ -z "$PROJECT_ID" ]; then
@@ -104,13 +103,13 @@ else
         read -p "Project ID: " PROJECT_ID
         gcloud config set project $PROJECT_ID
     fi
-    
+
     # Set default environment variables
     export REPOSITORY_NAME="fastapi-repo"
     export LOCATION="us-central1"
     export REPO_NAME="fastapi-hello-world-repo"
     export SERVICE_NAME="fastapi-hello-world"
-    
+
     # Save environment variables to file for other scripts
     cat > .env << EOV
 export PROJECT_ID="$PROJECT_ID"
@@ -119,9 +118,12 @@ export LOCATION="$LOCATION"
 export REPO_NAME="$REPO_NAME"
 export SERVICE_NAME="$SERVICE_NAME"
 EOV
-    
+
     echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -215,12 +217,6 @@ steps:
       '--port', '8000'
     ]
 
-# Substitutions for build variables
-substitutions:
-  _LOCATION: '$LOCATION'
-  _REPOSITORY: '$REPOSITORY_NAME'
-  _SERVICE_NAME: '$SERVICE_NAME'
-
 options:
   logging: CLOUD_LOGGING_ONLY
 EOL
@@ -274,13 +270,39 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 3: Setup Artifact Registry ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -327,13 +349,39 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 4: Setup Permissions ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -387,13 +435,39 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 5: Setup GitHub Repository ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -512,13 +586,39 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 6: Setup Build Triggers ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -566,7 +666,8 @@ gcloud builds triggers create github \
     --branch-pattern="^main$" \
     --build-config="cloudbuild.yaml" \
     --name="fastapi-main-trigger" \
-    --description="Trigger for main branch deployments"
+    --description="Trigger for main branch deployments" \
+    --substitutions="_LOCATION=$LOCATION,_REPOSITORY=$REPOSITORY_NAME,_SERVICE_NAME=$SERVICE_NAME"
 
 echo -e "${GREEN}✓ Main branch trigger created${NC}"
 
@@ -580,7 +681,8 @@ gcloud builds triggers create github \
     --build-config="cloudbuild.yaml" \
     --name="fastapi-pr-trigger" \
     --description="Trigger for pull request validation" \
-    --comment-control="COMMENTS_ENABLED" || echo -e "${YELLOW}PR trigger creation failed (this is optional)${NC}"
+    --comment-control="COMMENTS_ENABLED" \
+    --substitutions="_LOCATION=$LOCATION,_REPOSITORY=$REPOSITORY_NAME,_SERVICE_NAME=$SERVICE_NAME" || echo -e "${YELLOW}PR trigger creation failed (this is optional)${NC}"
 
 echo -e "${GREEN}✓ Build triggers created successfully${NC}"
 
@@ -604,13 +706,39 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 7: Test Pipeline ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -700,13 +828,39 @@ set -e
 
 echo "=== GCP CI/CD Pipeline Setup - Step 8: Test Application ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
@@ -780,13 +934,39 @@ cat > 09-cleanup.sh << 'EOF'
 
 echo "=== GCP CI/CD Pipeline Setup - Step 9: Cleanup Resources ==="
 
-# Load environment variables or create them if .env doesn't exist
-if [ -f ".env" ]; then
-    source .env
-else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+# Load environment variables, creating a default .env file if it's missing.
+if [ ! -f ".env" ]; then
+    echo "Warning: .env file not found. It should be created by 01-setup-environment.sh."
+    echo "Creating a default .env file to proceed..."
+
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+
+    echo "Environment variables saved to .env file"
 fi
+
+# Source the environment variables to make them available to this script
+source .env
 
 # Colors for output
 RED='\033[0;31m'
