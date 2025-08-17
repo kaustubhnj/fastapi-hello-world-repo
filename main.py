@@ -13,7 +13,7 @@ async def health_check():
 
 @app.get("/version")
 async def version():
-    return {"version": "1.0.1"}
+    return {"version": "1.0.0"}
 
 if __name__ == "__main__":
     import uvicorn
