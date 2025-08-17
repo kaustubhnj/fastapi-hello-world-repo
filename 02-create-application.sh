@@ -38,64 +38,64 @@ echo "=== GCP CI/CD Pipeline Setup - Step 2: Create Application ==="
 # fi
 
 # Source the environment variables to make them available to this script
-echo "Loading environment variables from .env..."
-source .env
+# echo "Loading environment variables from .env..."
+# source .env
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+# # Colors for output
+# RED='\033[0;31m'
+# GREEN='\033[0;32m'
+# YELLOW='\033[1;33m'
+# NC='\033[0m'
 
-# Create project directory
-echo -e "${YELLOW}Creating FastAPI application files...${NC}"
+# # Create project directory
+# echo -e "${YELLOW}Creating FastAPI application files...${NC}"
 
-# Create main.py
-cat > main.py << 'EOL'
-from fastapi import FastAPI
-import os
+# # Create main.py
+# cat > main.py << 'EOL'
+# from fastapi import FastAPI
+# import os
 
-app = FastAPI(title="Hello World API", version="1.0.0")
+# app = FastAPI(title="Hello World API", version="1.0.0")
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World!"}
+# @app.get("/")
+# async def root():
+#     return {"message": "Hello World!"}
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+# @app.get("/health")
+# async def health_check():
+#     return {"status": "healthy"}
 
-@app.get("/version")
-async def version():
-    return {"version": "1.0.0"}
+# @app.get("/version")
+# async def version():
+#     return {"version": "1.0.0"}
 
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
-EOL
+# if __name__ == "__main__":
+#     import uvicorn
+#     port = int(os.environ.get("PORT", 8000))
+#     uvicorn.run(app, host="0.0.0.0", port=port)
+# EOL
 
-# Create requirements.txt
-cat > requirements.txt << 'EOL'
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-EOL
+# # Create requirements.txt
+# cat > requirements.txt << 'EOL'
+# fastapi==0.104.1
+# uvicorn[standard]==0.24.0
+# EOL
 
-# Create Dockerfile
-cat > Dockerfile << 'EOL'
-FROM python:3.11-slim
+# # Create Dockerfile
+# cat > Dockerfile << 'EOL'
+# FROM python:3.11-slim
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# COPY requirements.txt .
+# RUN pip install --no-cache-dir -r requirements.txt
 
-COPY main.py .
+# COPY main.py .
 
-EXPOSE 8000
+# EXPOSE 8000
 
-CMD ["python", "main.py"]
-EOL
+# CMD ["python", "main.py"]
+# EOL
 
 # Create cloudbuild.yaml
 cat > cloudbuild.yaml << EOL
