@@ -93,10 +93,34 @@ echo "=== GCP CI/CD Pipeline Setup - Step 2: Create Application ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
-    echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
-    exit 1
+    echo "Warning: .env file not found. Creating default environment variables..."
+    
+    # Get or set project ID
+    export PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
+    if [ -z "$PROJECT_ID" ]; then
+        echo "No project set. Please enter your GCP Project ID:"
+        read -p "Project ID: " PROJECT_ID
+        gcloud config set project $PROJECT_ID
+    fi
+    
+    # Set default environment variables
+    export REPOSITORY_NAME="fastapi-repo"
+    export LOCATION="us-central1"
+    export REPO_NAME="fastapi-hello-world-repo"
+    export SERVICE_NAME="fastapi-hello-world"
+    
+    # Save environment variables to file for other scripts
+    cat > .env << EOV
+export PROJECT_ID="$PROJECT_ID"
+export REPOSITORY_NAME="$REPOSITORY_NAME"
+export LOCATION="$LOCATION"
+export REPO_NAME="$REPO_NAME"
+export SERVICE_NAME="$SERVICE_NAME"
+EOV
+    
+    echo "Environment variables saved to .env file"
 fi
 
 # Colors for output
@@ -252,7 +276,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 3: Setup Artifact Registry ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
@@ -305,7 +329,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 4: Setup Permissions ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
@@ -365,7 +389,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 5: Setup GitHub Repository ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
@@ -490,7 +514,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 6: Setup Build Triggers ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
@@ -582,7 +606,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 7: Test Pipeline ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
@@ -678,7 +702,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 8: Test Application ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
@@ -758,7 +782,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 9: Cleanup Resources ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1

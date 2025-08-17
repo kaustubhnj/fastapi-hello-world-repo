@@ -6,7 +6,7 @@ echo "=== GCP CI/CD Pipeline Setup - Step 9: Cleanup Resources ==="
 
 # Load environment variables or create them if .env doesn't exist
 if [ -f ".env" ]; then
-    . ./.env
+    source .env
 else
     echo "Error: .env file not found. Please run ./01-setup-environment.sh first."
     exit 1
